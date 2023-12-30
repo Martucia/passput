@@ -1,0 +1,206 @@
+openapi: 3.0.0
+paths:
+  /:
+    get:
+      operationId: AppController_getHello
+      parameters: []
+      responses:
+        '200':
+          description: ''
+  /password-item:
+    post:
+      operationId: PasswordItemController_create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePasswordItemDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PasswordItemDto'
+  /password-item/{id}:
+    delete:
+      operationId: PasswordItemController_removePasswordItem
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PasswordItemDto'
+  /auth/sign-up:
+    post:
+      operationId: AuthController_signUp
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignUpBodyDto'
+      responses:
+        '201':
+          description: ''
+  /auth/sign-in:
+    post:
+      operationId: AuthController_signIn
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignInBodyDto'
+      responses:
+        '200':
+          description: ''
+  /auth/sign-out:
+    post:
+      operationId: AuthController_signOut
+      parameters: []
+      responses:
+        '200':
+          description: ''
+  /auth/session:
+    get:
+      operationId: AuthController_getSessionInfo
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetSessionInfoDto'
+  /password-list:
+    get:
+      operationId: PasswordListController_getPasswordList
+      parameters:
+        - name: q
+          required: false
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PasswordListDto'
+info:
+  title: passput
+  description: ''
+  version: 1.0.0
+  contact: {}
+tags: []
+servers: []
+components:
+  schemas:
+    CreatePasswordItemDto:
+      type: object
+      properties:
+        password:
+          type: string
+        login:
+          type: string
+        site:
+          type: string
+        data:
+          type: string
+      required:
+        - password
+        - login
+        - site
+        - data
+    PasswordItemDto:
+      type: object
+      properties:
+        id:
+          type: number
+        createdAt:
+          format: date-time
+          type: string
+        password:
+          type: string
+        login:
+          type: string
+        site:
+          type: string
+        passwordListId:
+          type: number
+      required:
+        - id
+        - createdAt
+        - password
+        - login
+        - site
+        - passwordListId
+    SignUpBodyDto:
+      type: object
+      properties:
+        email:
+          type: string
+          example: email@gmail.com
+        password:
+          type: string
+          example: '12345'
+      required:
+        - email
+        - password
+    SignInBodyDto:
+      type: object
+      properties:
+        email:
+          type: string
+          example: email@gmail.com
+        password:
+          type: string
+          example: '12345'
+      required:
+        - email
+        - password
+    GetSessionInfoDto:
+      type: object
+      properties:
+        id:
+          type: number
+        email:
+          type: string
+          example: email@gmail.com
+        iat:
+          type: number
+        exp:
+          type: number
+      required:
+        - id
+        - email
+        - iat
+        - exp
+    PasswordListDto:
+      type: object
+      properties:
+        id:
+          type: number
+        ownerId:
+          type: number
+        items:
+          type: array
+          items:
+            type: string
+      required:
+        - id
+        - ownerId
+        - items
